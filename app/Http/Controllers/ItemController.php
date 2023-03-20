@@ -57,4 +57,12 @@ class ItemController extends Controller
 
         return view('item.add');
     }
+
+    public function edit($id)
+    {
+        dd($id);
+       $item=Item::find($id);
+
+        return view('item.edit',['item'=>$item]);
+    }
 }

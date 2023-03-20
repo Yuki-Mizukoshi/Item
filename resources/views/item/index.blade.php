@@ -15,7 +15,7 @@
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
                             <div class="input-group-append">
-                                <a href="{{ url('items/add') }}" class="btn btn-default">商品登録</a>
+                                <button class="btn btn-primary"><a href="{{ url('items/add') }}" >商品登録</a></button>
                             </div>
                         </div>
                     </div>
@@ -25,9 +25,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>名前</th>
+                                <th>型番</th>
                                 <th>種別</th>
-                                <th>詳細</th>
+                                <th>料金（税込）</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,7 +37,8 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
-                                    <td>{{ $item->detail }}</td>
+                                    <td>{{ $item->price }}</td>
+                                    <td><button class="btn btn-primary"><a href="{{ url('/items/edit'.$item->id) }}">編集</a></button></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -48,6 +50,8 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="/css/mizukoshi.css">
+
 @stop
 
 @section('js')
