@@ -37,7 +37,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
-                                    <td>{{ $item->price }}</td>
+                                    <td>{{ number_format($item->price) }}</td>
                                     <td><button class="btn btn-primary"><a href="{{ url('/items/edit'.$item->id) }}">編集</a></button></td>
                                 </tr>
                             @endforeach
