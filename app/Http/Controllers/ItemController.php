@@ -21,14 +21,18 @@ class ItemController extends Controller
     /**
      * 商品一覧
      */
-    public function index()
+    public function index(Request $request)
     {
         // 商品一覧取得
-        $items = Item
-            ::where('items.status', 'active')
-            ->select()
-            ->get();
+        $keyword=$request->input('keyword');
+        $query=Item::query();
 
+        if(!empty($keyword)) {
+            $query->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('detail', 'LIKE', "%{$keyword}%");
+        }
+
+        $items = $query->get();
         return view('item.index', compact('items'));
     }
 
@@ -49,16 +53,25 @@ class ItemController extends Controller
             ]);
 
             // 商品登録
-            Item::create([
-                'user_id' => Auth::user()->id,
-                'name' => $request->name,
-                'type' => $request->type,
-                'price'=>$request->price,
-                'stock'=>$request->stock,
-                'detail' => $request->detail,
-            ]);
+            // Item::create([
+            //     'user_id' => Auth::user()->id,
+            //     'name' => $request->name,
+            //     'type' => $request->type,
+            //     'price'=>$request->price,
+            //     'stock'=>$request->stock,
+            //     'detail' => $request->detail,
+            // ]);
 
-            return redirect('/items')->with('msg','作成完了しました');
+            $item=new Item();
+            $item->user_id=Auth::user()->id;
+            $item->name=$request->name;
+            $item->type=$request->type;
+            $item->price=$request->price;
+            $item->stock=$request->stock;
+            $item->detail=$request->detail;
+            $item->save();
+
+            return redirect('/items')->with('msg',$item->name.'を作成完了しました');
         }
 
         return view('item.add');
@@ -91,7 +104,7 @@ class ItemController extends Controller
         $item->stock=$request->stock;
         $item->detail=$request->detail;
 
-        return redirect('/items')->with('msg','編集完了しました');
+        return redirect('/items')->with('msg',$item->name.'編集完了しました');
     }
 
     public function delete($id)
@@ -100,7 +113,7 @@ class ItemController extends Controller
        $item=Item::find($id);
        $item->delete();
 
-        return redirect('/items')->with('msg','削除しました');
+        return redirect('/items')->with('msg',$item->name.'を削除しました');
     }
 
 

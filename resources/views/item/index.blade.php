@@ -17,11 +17,16 @@
                     {{ session('msg') }}
                 </div>
                 @endif
+
                 <div class="card-tools">
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
-                        </div>
+                    <div class="input-group-append">
+
+                        <form action="{{ url('/items') }}" method="get">
+                            <input type="text" name="keyword" class="form-control" placeholder="キーワード入力">
+                            <button type="submit" class="btn btn-primary">検索</button>
+                            <button class="btn btn-primary"><a href="{{ url('/items') }}">クリア</a></button>
+                        </form>
+                        <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
                     </div>
                 </div>
             </div>
