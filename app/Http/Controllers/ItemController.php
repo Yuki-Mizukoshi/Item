@@ -42,6 +42,10 @@ class ItemController extends Controller
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
+                'type'=>'required',
+                'price'=>'required',
+                'stock'=>'required',
+                'detail'=>'required'
             ]);
 
             // 商品登録
@@ -49,10 +53,12 @@ class ItemController extends Controller
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
                 'type' => $request->type,
+                'price'=>$request->price,
+                'stock'=>$request->stock,
                 'detail' => $request->detail,
             ]);
 
-            return redirect('/items');
+            return redirect('/items')->with('msg','作成完了しました');
         }
 
         return view('item.add');
@@ -60,9 +66,42 @@ class ItemController extends Controller
 
     public function edit($id)
     {
-        dd($id);
+        // dd($id);
        $item=Item::find($id);
 
         return view('item.edit',['item'=>$item]);
     }
+
+    public function update(Request $request,$id)
+    {
+        // dd($id);
+
+        $request->validate([
+            'name' => 'required|max:100',
+                'type'=>'required',
+                'price'=>'required',
+                'stock'=>'required',
+                'detail'=>'required'
+        ]);
+       
+        $item=Item::find($id);
+        $item->name=$request->name;
+        $item->type=$request->type;
+        $item->price=$request->price;
+        $item->stock=$request->stock;
+        $item->detail=$request->detail;
+
+        return redirect('/items')->with('msg','編集完了しました');
+    }
+
+    public function delete($id)
+    {
+        // dd($id);
+       $item=Item::find($id);
+       $item->delete();
+
+        return redirect('/items')->with('msg','削除しました');
+    }
+
+
 }
