@@ -20,6 +20,15 @@ class Item extends Model
         'detail',
     ];
 
+    const TYPES=[
+        '1'=>'テレビ',
+        '2'=>'冷蔵庫',
+        '3'=>'洗濯機',
+        '4'=>'オーブンレンジ',
+        '5'=>'ガスコンロ'
+    ];
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

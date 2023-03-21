@@ -21,14 +21,14 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
+                    <table class="table table-hover text-nowrap text-center">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>型番</th>
-                                <th>種別</th>
+                                <th>タイプ</th>
                                 <th>料金（税込）</th>
-                                <th></th>
+                                <th>在庫数（個）</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,8 +36,9 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->type }}</td>
-                                    <td>{{ number_format($item->price) }}</td>
+                                    <td>{{ \App\Models\Item::TYPES[$item->type]}}</td>
+                                    <td>{{ number_format($item->price) }}円</td>
+                                    <td>{{ $item->stock }}</td>
                                     <td><button class="btn btn-primary"><a href="{{ url('/items/edit'.$item->id) }}">編集</a></button></td>
                                 </tr>
                             @endforeach
