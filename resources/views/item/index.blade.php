@@ -19,15 +19,26 @@
                 @endif
 
                 <div class="card-tools">
-                    <div class="input-group-append">
 
-                        <form action="{{ url('/items') }}" method="get">
-                            <input type="text" name="keyword" class="form-control" placeholder="キーワード入力">
-                            <button type="submit" class="btn btn-primary">検索</button>
+                    <form action="/items" method="get">
+                        <div class="inputarea d-flex w-100">
+                            <div>
+                                <select name="sort" class="form-control">
+                                    <option value="highprice">価格の高い順</option>
+                                    <option value="lowprice">価格の低い順</option>
+                                    <option value="type">タイプ別</option>
+                                    <option value="lowcount">在庫の少ない数</option>
+                                    <option value="highcount">在庫の多い数</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="search" name="keyword" class="form-control" placeholder="キーワード入力">
+                            </div>
+                            <button type="submit" class="btn btn-primary">検 索</button>
                             <button class="btn btn-primary"><a href="{{ url('/items') }}">クリア</a></button>
-                        </form>
-                        <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
-                    </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -37,9 +48,9 @@
                             <th>ID</th>
                             <th>型番</th>
                             <th>タイプ</th>
-                            <th>料金（税込）</th>
+                            <th>料金（税込</th>
                             <th>在庫数（個）</th>
-                            <th></th>
+                            <th> <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button></th>
                         </tr>
                     </thead>
                     <tbody>

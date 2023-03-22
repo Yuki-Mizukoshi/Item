@@ -25,11 +25,24 @@ class ItemController extends Controller
     {
         // 商品一覧取得
         $keyword=$request->input('keyword');
+        $sort=$request->input('sort');
         $query=Item::query();
 
         if(!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('detail', 'LIKE', "%{$keyword}%");
+        }
+
+        if($sort=='highprice'){
+            $query->orderBy('price','desc');
+        }elseif($sort=='lowprice'){
+            $query->orderBy('price','asc');
+        }elseif($sort=='type'){
+            $query->orderBy('type','asc');
+        }elseif($sort=='highcount'){
+            $query->orderBy('stock','desc');
+        }elseif($sort=='lowcount'){
+            $query->orderBy('stock','asc');
         }
 
         $items = $query->get();
