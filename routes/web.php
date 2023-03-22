@@ -30,6 +30,7 @@ Route::prefix('items')->group(function () {
     Route::post('/delete/{id}', [App\Http\Controllers\ItemController::class, 'delete']);
 });
 
-// Route::prefix('users')->group(function () {
-//     Route::get('/', [App\Http\Controllers\ItemController::class, 'index']);
-// });
+Route::prefix('users')->group(function () {
+    Route::get('/', [App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/add', [App\Http\Controllers\UserController::class, 'add']);
+});

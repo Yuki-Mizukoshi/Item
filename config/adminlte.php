@@ -233,7 +233,7 @@ return [
         [
             'text' => '登録者一覧',
             'url'  => 'users',
-            'icon' => 'fas fa-gamepad',
+            'icon' => 'fas fa-user',
         ],
 
 
