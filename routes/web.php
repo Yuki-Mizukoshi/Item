@@ -29,3 +29,7 @@ Route::prefix('items')->group(function () {
     Route::post('/update/{id}', [App\Http\Controllers\ItemController::class, 'update']);
     Route::post('/delete/{id}', [App\Http\Controllers\ItemController::class, 'delete']);
 });
+
+// Route::prefix('users')->group(function () {
+//     Route::get('/', [App\Http\Controllers\ItemController::class, 'index']);
+// });

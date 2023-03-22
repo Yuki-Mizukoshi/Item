@@ -24,27 +24,32 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         // 商品一覧取得
-        $keyword=$request->input('keyword');
-        $sort=$request->input('sort');
-        $query=Item::query();
+        $keyword = $request->input('keyword');
+        $sort = $request->input('sort');
+        $query = Item::query();
 
-        if(!empty($keyword)) {
+        if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('detail', 'LIKE', "%{$keyword}%");
         }
 
-        if($sort=='highprice'){
-            $query->orderBy('price','desc');
-        }elseif($sort=='lowprice'){
-            $query->orderBy('price','asc');
-        }elseif($sort=='type'){
-            $query->orderBy('type','asc');
-        }elseif($sort=='highcount'){
-            $query->orderBy('stock','desc');
-        }elseif($sort=='lowcount'){
-            $query->orderBy('stock','asc');
+        if ($sort == 'highprice') {
+            $query->orderBy('price', 'desc');
+        } elseif ($sort == 'lowprice') {
+            $query->orderBy('price', 'asc');
+        } elseif ($sort == 'typeasc') {
+            $query->orderBy('type', 'asc');
+        } elseif ($sort == 'typedesc') {
+            $query->orderBy('type', 'desc');
+        } elseif ($sort == 'highcount') {
+            $query->orderBy('stock', 'desc');
+        } elseif ($sort == 'lowcount') {
+            $query->orderBy('stock', 'asc');
+        }elseif ($sort == 'idasc') {
+            $query->orderBy('id', 'asc');
+        } elseif ($sort == 'iddesc') {
+            $query->orderBy('id', 'desc');
         }
-
         $items = $query->get();
         return view('item.index', compact('items'));
     }
@@ -59,10 +64,10 @@ class ItemController extends Controller
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
-                'type'=>'required',
-                'price'=>'required',
-                'stock'=>'required',
-                'detail'=>'required'
+                'type' => 'required',
+                'price' => 'required',
+                'stock' => 'required',
+                'detail' => 'required'
             ]);
 
             // 商品登録
@@ -75,16 +80,16 @@ class ItemController extends Controller
             //     'detail' => $request->detail,
             // ]);
 
-            $item=new Item();
-            $item->user_id=Auth::user()->id;
-            $item->name=$request->name;
-            $item->type=$request->type;
-            $item->price=$request->price;
-            $item->stock=$request->stock;
-            $item->detail=$request->detail;
+            $item = new Item();
+            $item->user_id = Auth::user()->id;
+            $item->name = $request->name;
+            $item->type = $request->type;
+            $item->price = $request->price;
+            $item->stock = $request->stock;
+            $item->detail = $request->detail;
             $item->save();
 
-            return redirect('/items')->with('msg',$item->name.'を作成完了しました');
+            return redirect('/items')->with('msg', $item->name . 'を作成完了しました');
         }
 
         return view('item.add');
@@ -93,41 +98,39 @@ class ItemController extends Controller
     public function edit($id)
     {
         // dd($id);
-       $item=Item::find($id);
+        $item = Item::find($id);
 
-        return view('item.edit',['item'=>$item]);
+        return view('item.edit', ['item' => $item]);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         // dd($id);
 
         $request->validate([
             'name' => 'required|max:100',
-                'type'=>'required',
-                'price'=>'required',
-                'stock'=>'required',
-                'detail'=>'required'
+            'type' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
+            'detail' => 'required'
         ]);
-       
-        $item=Item::find($id);
-        $item->name=$request->name;
-        $item->type=$request->type;
-        $item->price=$request->price;
-        $item->stock=$request->stock;
-        $item->detail=$request->detail;
 
-        return redirect('/items')->with('msg',$item->name.'編集完了しました');
+        $item = Item::find($id);
+        $item->name = $request->name;
+        $item->type = $request->type;
+        $item->price = $request->price;
+        $item->stock = $request->stock;
+        $item->detail = $request->detail;
+
+        return redirect('/items')->with('msg', $item->name . '編集完了しました');
     }
 
     public function delete($id)
     {
         // dd($id);
-       $item=Item::find($id);
-       $item->delete();
+        $item = Item::find($id);
+        $item->delete();
 
-        return redirect('/items')->with('msg',$item->name.'を削除しました');
+        return redirect('/items')->with('msg', $item->name . 'を削除しました');
     }
-
-
 }

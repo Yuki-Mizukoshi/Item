@@ -26,7 +26,10 @@
                                 <select name="sort" class="form-control">
                                     <option value="highprice">価格の高い順</option>
                                     <option value="lowprice">価格の低い順</option>
-                                    <option value="type">タイプ別</option>
+                                    <option value="idasc">ID（昇順）</option>
+                                    <option value="iddesc">ID（降順）</option>
+                                    <option value="typeasc">タイプ別（昇順）</option>
+                                    <option value="typedesc">タイプ別（降順）</option>
                                     <option value="lowcount">在庫の少ない数</option>
                                     <option value="highcount">在庫の多い数</option>
                                 </select>
