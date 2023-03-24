@@ -53,20 +53,24 @@
                         <textarea name="detail" id="detail" cols="10" rows="5" class="form-control">{{ $item->detail }}</textarea>
                     </div>
 
-                    <div class="card-footer d-flex">
-                        <button type="submit" class="btn btn-primary">登録</button>
-                        <button class="btn btn-primary" onclick="history.back()">戻る</button>
+                    <div class="d-flex">
+                        <div class="ml-3">
+                            <button type="submit" class="btn btn-primary">登録</button>
+                            <button class="btn btn-primary" onclick="history.back()">戻る</button>
+                        </div>
                     </div>
                 </div>
             </form>
-            <div>
-                <form action="{{ url('/items/delete/'.$item->id) }}" method="POST">
-                                @csrf
-                 <button type="submit" class="btn btn-danger mr-2 ml-2" onclick="return confirm('本当に削除しますか？')">削除</button>
-                </form>
-             </div>
+        </div>
+        <div>
+            <form action="{{ url('/items/delete/'.$item->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-danger mr-2 ml-2" onclick="return confirm('本当に削除しますか？')">削除</button>
+            </form>
         </div>
     </div>
+
+</div>
 </div>
 @stop
 

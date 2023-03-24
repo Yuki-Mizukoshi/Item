@@ -6,4 +6,12 @@ a{
     width: 300px;
 }
 
+textarea{
+    resize: none;
+}
+
+a.sort{
+    color:#007bff;
+    border-radius: 15%;
+}
 

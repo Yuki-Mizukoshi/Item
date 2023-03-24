@@ -35,10 +35,10 @@
                                 </select>
                             </div>
                             <div>
-                                <input type="search" name="keyword" class="form-control" placeholder="キーワード入力">
+                                <input type="search" name="keyword" class="form-control" placeholder="キーワード入力" value="@if(isset($keyword)) {{ $keyword }} @endif">                           
                             </div>
-                            <button type="submit" class="btn btn-primary">検 索</button>
-                            <button class="btn btn-primary"><a href="{{ url('/items') }}">クリア</a></button>
+                            <button type="submit" class="btn btn-primary ml-2">検 索</button>
+                            <button class="btn btn-primary ml-3"><a href="{{ url('/items') }}">クリア</a></button>
                         </div>
                     </form>
 
@@ -51,7 +51,7 @@
                             <th>ID</th>
                             <th>型番</th>
                             <th>タイプ</th>
-                            <th>料金（税込</th>
+                            <th>料金（税込)<a href="/items?sort=highprice&keyword=" class="sort">▲</a><a href="/items?sort=lowprice&keyword=" class="sort">▼</a></th>
                             <th>在庫数（個）</th>
                             <th> <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button></th>
                         </tr>

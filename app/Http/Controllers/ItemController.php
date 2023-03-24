@@ -51,7 +51,7 @@ class ItemController extends Controller
             $query->orderBy('id', 'desc');
         }
         $items = $query->get();
-        return view('item.index', compact('items'));
+        return view('item.index', ['items'=>$items,'keyword'=>$keyword]);
     }
 
     /**
@@ -121,6 +121,7 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->stock = $request->stock;
         $item->detail = $request->detail;
+        $item->save();
 
         return redirect('/items')->with('msg', $item->name . '編集完了しました');
     }

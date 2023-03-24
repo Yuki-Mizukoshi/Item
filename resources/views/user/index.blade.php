@@ -26,21 +26,21 @@
                         <tr>
                             <th>ID</th>
                             <th>利用者名</th>
+                            <th>権限</th>
                             <th>メールアドレス</th>
                             <th> <button class="btn btn-primary"><a href="{{ url('/users/add')}}">利用者登録</a></button></th>
                         </tr>
                     </thead>
                     <tbody>
-                       
+                    @foreach($users as $user)
                         <tr>
-                            @foreach($users as $user)
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>@if($user->role==0)一般 @else 管理者 @endif</td>
                             <td>{{ $user->email }}</td>
-                            <td><button class="btn btn-primary"><a href="#">編集</a></button></td>
-                            @endforeach
+                            <td><button class="btn btn-primary"><a href="{{ url('/users/edit/'.$user->id)}}">編集</a></button></td>
                         </tr>
-                     
+                        @endforeach
                     </tbody>
                 </table>
             </div>
