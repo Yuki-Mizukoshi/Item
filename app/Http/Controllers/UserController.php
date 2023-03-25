@@ -7,10 +7,31 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $sort = $request->input('sort');
+        $query = User::query();
 
-        $users=User::all();
+        if ($sort == 'hiname') {
+            $query->orderBy('name', 'desc');
+        } elseif ($sort == 'lowname') {
+            $query->orderBy('name', 'asc');
+        } elseif ($sort == 'hirole') {
+            $query->orderBy('role', 'asc');
+        } elseif ($sort == 'lowrole') {
+            $query->orderBy('role', 'desc');
+        } elseif ($sort == 'hiemail') {
+            $query->orderBy('email', 'desc');
+        } elseif ($sort == 'lowemail') {
+            $query->orderBy('email', 'asc');
+        }elseif ($sort == 'idasc') {
+            $query->orderBy('id', 'asc');
+        } elseif ($sort == 'iddesc') {
+            $query->orderBy('id', 'desc');
+        }
+
+
+        $users=$query->get();
 
         return view('user.index',['users'=>$users]);
 

@@ -62,12 +62,6 @@
                 </div>
             </form>
         </div>
-        <div>
-            <form action="{{ url('/items/delete/'.$item->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-danger mr-2 ml-2" onclick="return confirm('本当に削除しますか？')">削除</button>
-            </form>
-        </div>
     </div>
 
 </div>
@@ -75,6 +69,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="/css/mizukoshi.css">
 @stop
 
 @section('js')

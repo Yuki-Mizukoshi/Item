@@ -24,7 +24,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="name">利用者名</label>
+                        <label for="name">名前</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                     </div>
 
@@ -54,12 +54,7 @@
                     </div>
                 </div>
             </form>
-            <div>
-                <form action="{{ url('/users/delete/'.$user->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger mr-2 ml-2" onclick="return confirm('本当に削除しますか？')">削除</button>
-                </form>
-            </div>
+            
         </div>
     </div>
 </div>

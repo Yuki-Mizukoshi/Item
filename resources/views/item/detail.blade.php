@@ -29,26 +29,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">タイプ</label>
-                            <select name="type" id="type" class="form-control">
-                                <option value="" selected disabled>選択してください</option>
-                                @foreach(\App\Models\Item::TYPES as $key=>$value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="price">金額（税込）</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="金額">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="stock">在庫数</label>
-                            <input type="number" class="form-control" id="stock" name="stock" placeholder="在庫数">
-                        </div>
-
-                        <div class="form-group">
                             <label for="detail">詳細</label>
                             <textarea name="detail" id="detail" cols="10" rows="5" class="form-control" placeholder="詳細情報入力"></textarea>
                             
@@ -68,6 +48,7 @@
 @section('css')
 <link rel="stylesheet" href="/css/mizukoshi.css">
 @stop
+
 
 @section('js')
 @stop
