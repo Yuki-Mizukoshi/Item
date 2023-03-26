@@ -20,26 +20,24 @@
             @endif
 
             <div class="card card-primary">
-                <form method="POST">
-                    @csrf
+                
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">名前</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="名前">
+                            <input type="text" class="form-control" id="name" name="name"  value="{{ $item->name }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="detail">詳細</label>
-                            <textarea name="detail" id="detail" cols="10" rows="5" class="form-control" placeholder="詳細情報入力"></textarea>
+                            <textarea name="detail" id="detail" cols="10" rows="5" class="form-control" disabled>{{ $item->detail }}</textarea>
                             
                         </div>
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">登録</button>
                         <button class="btn btn-primary" onclick="history.back()">戻る</button>
                     </div>
-                </form>
+               
             </div>
         </div>
     </div>

@@ -61,7 +61,7 @@ class UserController extends Controller
         $user->password=$request->password;
         $user->save();
 
-        return redirect('/users');
+        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を作成しました');
     }
 
     public function edit($id)
@@ -92,7 +92,7 @@ class UserController extends Controller
         $user->save();
         
 
-        return redirect('/users')->with('msg', $user->name . '編集完了しました');
+        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を編集しました');
     }
 
     public function delete($id)
@@ -101,7 +101,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect('/users')->with('msg', $user->name . 'を削除しました');
+        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を削除しました');
     }
 
 }

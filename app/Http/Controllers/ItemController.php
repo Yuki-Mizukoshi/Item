@@ -103,6 +103,14 @@ class ItemController extends Controller
         return view('item.edit', ['item' => $item]);
     }
 
+    public function detail($id)
+    {
+        // dd($id);
+        $item = Item::find($id);
+
+        return view('item.detail', ['item' => $item]);
+    }
+
     public function update(Request $request, $id)
     {
         // dd($id);
@@ -123,7 +131,7 @@ class ItemController extends Controller
         $item->detail = $request->detail;
         $item->save();
 
-        return redirect('/items')->with('msg', $item->name . '編集完了しました');
+        return redirect('/items')->with('message', $item->name . '編集完了しました');
     }
 
     public function delete($id)
@@ -132,6 +140,6 @@ class ItemController extends Controller
         $item = Item::find($id);
         $item->delete();
 
-        return redirect('/items')->with('msg', $item->name . 'を削除しました');
+        return redirect('/items')->with('message', $item->name . 'を削除しました');
     }
 }

@@ -12,9 +12,9 @@
         <div class="card">
             <div class="card-header">
                 <br>
-                @if (session('msg'))
-                <div class="flash_message bg-success text-center py-3 mb-3">
-                    {{ session('msg') }}
+                @if (session('message'))
+                <div class="flash_message bg-success text-center py-3 mb-3" id="FlashMessage">
+                    {{ session('message') }}
                 </div>
                 @endif
                 <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
@@ -49,10 +49,10 @@
                     <thead>
                         <tr>
                             <th>ID<a href="/items?sort=idasc&keyword=" class="sort">▲</a><a href="/items?sort=iddesc&keyword=" class="sort">▼</a></th>
-                            <th>型番<a href="/items?sort=highprice&keyword=" class="sort">▲</a><a href="/items?sort=lowprice&keyword=" class="sort">▼</a></th>
-                            <th>タイプ<a href="/items?sort=typedesc&keyword=" class="sort">▲</a><a href="/items?sort=typeasc&keyword=" class="sort">▼</a></th>
-                            <th>料金（税込)<a href="/items?sort=highprice&keyword=" class="sort">▲</a><a href="/items?sort=lowprice&keyword=" class="sort">▼</a></th>
-                            <th>在庫数（個）<a href="/items?sort=highcount&keyword=" class="sort">▲</a><a href="/items?sort=lowcount&keyword=" class="sort">▼</a></th>
+                            <th>型番<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
+                            <th>タイプ<a href="/items?sort=typeasc&keyword=" class="sort">▲</a><a href="/items?sort=typedesc&keyword=" class="sort">▼</a></th>
+                            <th>料金（税込)<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
+                            <th>在庫数（個）<a href="/items?sort=lowcount&keyword=" class="sort">▲</a><a href="/items?sort=highcount&keyword=" class="sort">▼</a></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -65,7 +65,7 @@
                             <td>{{ \App\Models\Item::TYPES[$item->type]}}</td>
                             <td>{{ number_format($item->price) }}円</td>
                             <td>{{ $item->stock }}</td>
-                            <td> <button class="btn btn-primary"><a href="{{ url('#') }}">詳細</a></button></td>
+                            <td> <button class="btn btn-primary"><a href="{{ url('/items/detail/'.$item->id) }}">詳細</a></button></td>
                             <td><button class="btn btn-primary"><a href="{{ url('/items/edit/'.$item->id) }}">編集</a></button></td>
                             <td>
                                 <form action="{{ url('/items/delete/'.$item->id) }}" method="POST">
@@ -89,4 +89,23 @@
 @stop
 
 @section('js')
+<script>
+//Sessionデータにメッセージが有るかどうかを確認
+if( "{{session('message')}}" ){
+      //phpのuniqid関数でユニーク値をセット
+      const messageIdValue = "{{ uniqid() }}";
+      //主要ブラウザはsessionStorageに対応しているが、念のため確認
+      if (sessionStorage) {
+        //messageIdの値が同じだったら、フラッシュメッセージをdisplay:none;する
+        if (sessionStorage.getItem('messageId') === messageIdValue) {
+          document.getElementById('#FlashMessage').style.display = "none";
+        }else{
+          //messageIdがない場合は新しくセット。
+          //messageIdは有るが値が違う場合は上書き。
+          sessionStorage.setItem('messageId', messageIdValue);
+        }
+      }    
+    }
+
+</script>
 @stop
