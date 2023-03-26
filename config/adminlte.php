@@ -231,9 +231,10 @@ return [
             'icon' => 'fas fa-gamepad',
         ],
         [
-            'text' => '登録者一覧',
+            'text' => '利用者一覧',
             'url'  => 'users',
             'icon' => 'fas fa-user',
+            'can'=>'admin',
         ],
 
 

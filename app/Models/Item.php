@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;// 追加
 
 class Item extends Model
 {
+    use Sortable; //追加
+
     /**
      * The attributes that are mass assignable.
      *

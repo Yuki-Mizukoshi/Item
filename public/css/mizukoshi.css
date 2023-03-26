@@ -1,6 +1,4 @@
-a{
-    color:white;
-}
+a{color: white;}
 
 .keyword{
     width: 300px;
@@ -13,5 +11,9 @@ textarea{
 a.sort{
     color:black;
     border-radius: 15%;
+}
+
+.thema a{
+    color:black;
 }
 

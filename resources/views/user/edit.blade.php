@@ -71,10 +71,12 @@
                 <div class="d-flex">
                     <div class="ml-3">
                         <button type="submit" class="btn btn-primary">登録</button>
-                        <button class="btn btn-primary" onclick="location.href='/users'">戻る</button>
                     </div>
                 </div>
             </form>
+            <div class="ml-3 mt-3 mb-3">
+                <button class="btn btn-primary" onclick="location.href='/users'">戻る</button>
+            </div>
 
         </div>
     </div>

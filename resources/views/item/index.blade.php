@@ -12,12 +12,14 @@
         <div class="card">
             <div class="card-header">
                 <br>
-                @if (session('message'))
+                @if (session('msg'))
                 <div class="flash_message bg-success text-center py-3 mb-3" id="FlashMessage">
-                    {{ session('message') }}
+                    {{ session('msg') }}
                 </div>
                 @endif
+                @can('admin')
                 <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
+                @endcan
                 <div class="card-tools">
 
                     <form action="/items" method="get">
@@ -48,11 +50,16 @@
                 <table class="table table-hover text-nowrap text-center">
                     <thead>
                         <tr>
-                            <th>ID<a href="/items?sort=idasc&keyword=" class="sort">▲</a><a href="/items?sort=iddesc&keyword=" class="sort">▼</a></th>
-                            <th>型番<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
+                            <!-- <th>ID<a href="/items?sort=idasc&keyword=" class="sort">▲</a><a href="/items?sort=iddesc&keyword=" class="sort">▼</a></th> -->
+                            <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover"  data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
+                            <th class="thema">@sortablelink('name', '型番')</th>
+                            <th class="thema">@sortablelink('type', 'タイプ')</th>
+                            <th class="thema">@sortablelink('price', '金額（税込）')</th>
+                            <th class="thema">@sortablelink('stock', '在庫数（個）')</th>
+                            <!-- <th>型番<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
                             <th>タイプ<a href="/items?sort=typeasc&keyword=" class="sort">▲</a><a href="/items?sort=typedesc&keyword=" class="sort">▼</a></th>
                             <th>料金（税込)<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
-                            <th>在庫数（個）<a href="/items?sort=lowcount&keyword=" class="sort">▲</a><a href="/items?sort=highcount&keyword=" class="sort">▼</a></th>
+                            <th>在庫数（個）<a href="/items?sort=lowcount&keyword=" class="sort">▲</a><a href="/items?sort=highcount&keyword=" class="sort">▼</a></th> -->
                             <th></th>
                             <th></th>
                         </tr>
@@ -66,6 +73,7 @@
                             <td>{{ number_format($item->price) }}円</td>
                             <td>{{ $item->stock }}</td>
                             <td> <button class="btn btn-primary"><a href="{{ url('/items/detail/'.$item->id) }}">詳細</a></button></td>
+                            @can('admin')
                             <td><button class="btn btn-primary"><a href="{{ url('/items/edit/'.$item->id) }}">編集</a></button></td>
                             <td>
                                 <form action="{{ url('/items/delete/'.$item->id) }}" method="POST">
@@ -73,6 +81,7 @@
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
                                 </form>
                             </td>
+                            @endcan
                         </tr>
                         @endforeach
                     </tbody>
@@ -90,22 +99,27 @@
 
 @section('js')
 <script>
-//Sessionデータにメッセージが有るかどうかを確認
-if( "{{session('message')}}" ){
-      //phpのuniqid関数でユニーク値をセット
-      const messageIdValue = "{{ uniqid() }}";
-      //主要ブラウザはsessionStorageに対応しているが、念のため確認
-      if (sessionStorage) {
-        //messageIdの値が同じだったら、フラッシュメッセージをdisplay:none;する
-        if (sessionStorage.getItem('messageId') === messageIdValue) {
-          document.getElementById('#FlashMessage').style.display = "none";
-        }else{
-          //messageIdがない場合は新しくセット。
-          //messageIdは有るが値が違う場合は上書き。
-          sessionStorage.setItem('messageId', messageIdValue);
+    //Sessionデータにメッセージが有るかどうかを確認
+    if ("{{session('message')}}") {
+        //phpのuniqid関数でユニーク値をセット
+        const messageIdValue = "{{ uniqid() }}";
+        //主要ブラウザはsessionStorageに対応しているが、念のため確認
+        if (sessionStorage) {
+            //messageIdの値が同じだったら、フラッシュメッセージをdisplay:none;する
+            if (sessionStorage.getItem('messageId') === messageIdValue) {
+                document.getElementById('#FlashMessage').style.display = "none";
+            } else {
+                //messageIdがない場合は新しくセット。
+                //messageIdは有るが値が違う場合は上書き。
+                sessionStorage.setItem('messageId', messageIdValue);
+            }
         }
-      }    
     }
 
+    $(function() {
+        $('#hoge').popover({
+            trigger: 'hover', // click,hover,focus,manualを選択出来る
+        });
+    });
 </script>
 @stop

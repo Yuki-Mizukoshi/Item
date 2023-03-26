@@ -18,6 +18,19 @@
                 </div>
                 @endif
                 <button class="btn btn-primary"><a href="{{ url('/users/add')}}">利用者登録</a></button>
+                <div class="card-tools">
+
+                    <form action="/users" method="get">
+                        <div class="inputarea d-flex w-100">
+                            <div>
+                                <input type="search" name="keyword" class="form-control" placeholder="キーワード入力" value="@if(isset($keyword)) {{ $keyword }} @endif">
+                            </div>
+                            <button type="submit" class="btn btn-primary ml-2">検 索</button>
+                            <button class="btn btn-primary ml-3"><a href="{{ url('/users') }}">クリア</a></button>
+                        </div>
+                    </form>
+
+                </div>
                 <!-- <form action="/users" method="get">
                         <div class="inputarea d-flex w-100">
                             <div>
@@ -45,10 +58,15 @@
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
                             <tr>
-                                <th>ID<a href="/users?sort=idasc" class="sort">▲</a><a href="/users?sort=iddesc" class="sort">▼</a></th>
+                            <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover"  data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
+                            <th class="thema">@sortablelink('name', '名前')</th>
+                            <th class="thema">@sortablelink('role', '権限')</th>
+                            <th class="thema">@sortablelink('email', 'メールアドレス')</th>
+
+                                <!-- <th>ID<a href="/users?sort=idasc" class="sort">▲</a><a href="/users?sort=iddesc" class="sort">▼</a></th>
                                 <th>名前<a href="/users?sort=hiname" class="sort">▲</a><a href="/users?sort=lowname" class="sort">▼</a></th>
                                 <th>権限<a href="/users?sort=hirole" class="sort">▲</a><a href="/users?sort=lowrole" class="sort">▼</a></th>
-                                <th>メールアドレス<a href="/users?sort=hiemail" class="sort">▲</a><a href="/users?sort=lowemail" class="sort">▼</a></th>
+                                <th>メールアドレス<a href="/users?sort=hiemail" class="sort">▲</a><a href="/users?sort=lowemail" class="sort">▼</a></th> -->
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -83,4 +101,12 @@
     @stop
 
     @section('js')
+
+    <script>
+         $(function() {
+        $('#hoge').popover({
+            trigger: 'hover', // click,hover,focus,manualを選択出来る
+        });
+    });
+    </script>
     @stop

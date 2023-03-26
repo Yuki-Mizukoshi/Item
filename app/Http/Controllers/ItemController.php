@@ -23,34 +23,37 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        // 商品一覧取得
+        
         $keyword = $request->input('keyword');
-        $sort = $request->input('sort');
+        // $sort = $request->input('sort');
         $query = Item::query();
+
+        $items=Item::sortable()->get();
 
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('detail', 'LIKE', "%{$keyword}%");
+                $items=$query->get();
         }
 
-        if ($sort == 'highprice') {
-            $query->orderBy('price', 'desc');
-        } elseif ($sort == 'lowprice') {
-            $query->orderBy('price', 'asc');
-        } elseif ($sort == 'typeasc') {
-            $query->orderBy('type', 'asc');
-        } elseif ($sort == 'typedesc') {
-            $query->orderBy('type', 'desc');
-        } elseif ($sort == 'highcount') {
-            $query->orderBy('stock', 'desc');
-        } elseif ($sort == 'lowcount') {
-            $query->orderBy('stock', 'asc');
-        }elseif ($sort == 'idasc') {
-            $query->orderBy('id', 'asc');
-        } elseif ($sort == 'iddesc') {
-            $query->orderBy('id', 'desc');
-        }
-        $items = $query->get();
+        // if ($sort == 'highprice') {
+        //     $query->orderBy('price', 'desc');
+        // } elseif ($sort == 'lowprice') {
+        //     $query->orderBy('price', 'asc');
+        // } elseif ($sort == 'typeasc') {
+        //     $query->orderBy('type', 'asc');
+        // } elseif ($sort == 'typedesc') {
+        //     $query->orderBy('type', 'desc');
+        // } elseif ($sort == 'highcount') {
+        //     $query->orderBy('stock', 'desc');
+        // } elseif ($sort == 'lowcount') {
+        //     $query->orderBy('stock', 'asc');
+        // }elseif ($sort == 'idasc') {
+        //     $query->orderBy('id', 'asc');
+        // } elseif ($sort == 'iddesc') {
+        //     $query->orderBy('id', 'desc');
+        // }
+        // $items = $query->get();
         return view('item.index', ['items'=>$items,'keyword'=>$keyword]);
     }
 
@@ -131,7 +134,7 @@ class ItemController extends Controller
         $item->detail = $request->detail;
         $item->save();
 
-        return redirect('/items')->with('message', $item->name . '編集完了しました');
+        return redirect('/items')->with('msg', $item->name . '編集完了しました');
     }
 
     public function delete($id)
@@ -140,6 +143,6 @@ class ItemController extends Controller
         $item = Item::find($id);
         $item->delete();
 
-        return redirect('/items')->with('message', $item->name . 'を削除しました');
+        return redirect('/items')->with('msg', $item->name . 'を削除しました');
     }
 }

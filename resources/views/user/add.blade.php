@@ -78,13 +78,11 @@
                         @enderror
                     </div>
                 </div>
-
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">登録</button>
-                    <button class="btn btn-primary" onclick="history.back()">戻る</button>
-                </div>
+                <button type="submit" class="btn btn-primary ml-3 mb-3">登録</button>
             </form>
+            <div class="ml-3 mb-3">
+                <button class="btn btn-primary" onclick="history.back()">戻る</button>
+            </div>
         </div>
     </div>
 </div>

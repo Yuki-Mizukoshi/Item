@@ -10,14 +10,6 @@
 <p>ログイン成功しました</p>
 
 
-<ul class="slider-1" id="js-slider-1">
-  <li><img src="https://placehold.jp/600x400.png" alt=""></li>
-  <li><img src="https://placehold.jp/600x400.png" alt=""></li>
-  <li><img src="https://placehold.jp/600x400.png" alt=""></li>
-  <li><img src="https://placehold.jp/600x400.png" alt=""></li>
-</ul>
-
-
 @stop
 
 @section('css')
