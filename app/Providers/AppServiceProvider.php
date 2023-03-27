@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
 
 
@@ -27,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         \Illuminate\Support\Facades\Schema::defaultStringLength(191);
-if(\App::environment(['production'])){
-    \URL::forceScheme('https');
-}
+        if (\App::environment(['production'])) {
+            \URL::forceScheme('https');
+        }
     }
 }
