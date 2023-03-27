@@ -83,7 +83,7 @@
                 </div>
             </form>
             <div class="ml-3 mb-3">
-                <button class="btn btn-primary" onclick="history.back()">戻る</button>
+                <button class="btn btn-primary"><a href="{{ url('/items') }}">戻る</a></button>
             </div>
         </div>
     </div>

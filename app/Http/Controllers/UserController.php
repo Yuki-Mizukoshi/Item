@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -25,11 +26,7 @@ class UserController extends Controller
         return view('user.index',['users'=>$users]);
     }
 
-       
-        
-
-    
-
+   
     public function add(Request $request)
     {
  
@@ -51,7 +48,7 @@ class UserController extends Controller
         $user->name=$request->name;
         $user->role=$request->role;
         $user->email=$request->email;
-        $user->password=$request->password;
+        $user->password=Hash::make($request->password);
         $user->save();
 
         return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を作成しました');
@@ -73,14 +70,17 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'email' => 'required|email',
-            'password'=>'required',
+            'password'=>'min:8',
             'role' => 'required',
         ]);
 
         $user = User::find($id);
+        if(strlen($request->password)>=8)
+        {
+            $user->password=Hash::make($request->password);
+        }
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
         $user->role = $request->role;
         $user->save();
         

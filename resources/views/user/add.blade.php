@@ -81,7 +81,7 @@
                 <button type="submit" class="btn btn-primary ml-3 mb-3">登録</button>
             </form>
             <div class="ml-3 mb-3">
-                <button class="btn btn-primary" onclick="history.back()">戻る</button>
+                <button class="btn btn-primary"><a href="{{ url('/users') }}">戻る</a></button>
             </div>
         </div>
     </div>
@@ -89,6 +89,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="/css/mizukoshi.css">
 @stop
 
 @section('js')

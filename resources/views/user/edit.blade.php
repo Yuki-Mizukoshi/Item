@@ -46,7 +46,7 @@
 
                     <div class="form-group">
                         <label for="password">パスワード</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ $user->password }}">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="">
                         @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -75,7 +75,7 @@
                 </div>
             </form>
             <div class="ml-3 mt-3 mb-3">
-                <button class="btn btn-primary" onclick="location.href='/users'">戻る</button>
+                <button class="btn btn-primary"><a href="{{ url('/users') }}">戻る</a></button>
             </div>
 
         </div>
@@ -84,6 +84,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="/css/mizukoshi.css">
 @stop
 
 @section('js')
