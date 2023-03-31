@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -12,24 +14,28 @@ class UserController extends Controller
     {
         $keyword = $request->input('keyword');
         $query = User::query();
-        $users=User::sortable()->get();
+        $users = User::sortable()->get();
 
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%");
-            $users = $query->get();
         }
 
-        if($users===null){
+        if (Auth::user()->role == 0) {
+            $query->where('id', Auth::id());
+        }
+
+        $users = $query->get();
+        if ($users === null) {
             return redirect('/users')->with('msg', '入力されたキーワードは存在しません');
         }
-               
-        return view('user.index',['users'=>$users]);
+
+        return view('user.index', ['users' => $users]);
     }
 
-   
+
     public function add(Request $request)
     {
- 
+
         return view('user.add');
     }
 
@@ -37,30 +43,33 @@ class UserController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'name'=>'required',
-            'email'=>'required|email|unique:users',
-            'password'=>'required',
-            'role'=>'required',
-            'confirm'=>'required|same:password'
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role' => 'required',
+            'confirm' => 'required|same:password'
         ]);
 
-        $user=new User();
-        $user->name=$request->name;
-        $user->role=$request->role;
-        $user->email=$request->email;
-        $user->password=Hash::make($request->password);
+        $user = new User();
+        $user->name = $request->name;
+        $user->role = $request->role;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を作成しました');
+        return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を作成しました');
     }
 
     public function edit($id)
     {
         // dd($id);
-        $user=User::find($id);
 
-        return view('user.edit',['user'=>$user]);
+        $user = User::find($id);
+        if (Auth::user()->id != $user->id) {
+            return abort('404', 'not found');
+        }
 
+        return view('user.edit', ['user' => $user]);
     }
 
     public function update(Request $request, $id)
@@ -70,23 +79,32 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'email' => 'required|email',
-            'password'=>'min:8',
-            'role' => 'required',
+            'password' => 'min:8',
+            'confirm' => 'required|same:password',
         ]);
 
+        if (Auth::user()->id == 1) {
+            $request->validate([
+                'role' => 'required',
+            ]);
+        }
+
         $user = User::find($id);
-        if(strlen($request->password)>=8)
-        {
-            $user->password=Hash::make($request->password);
+        if (strlen($request->password) >= 8) {
+            $user->password = Hash::make($request->password);
         }
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = $request->role;
+        if (Auth::user()->id == 1) {
+            $user->role = $request->role;
+        }
         $user->save();
-        
 
-        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を編集しました');
+        return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を編集しました');
     }
+
+
+
 
     public function delete($id)
     {
@@ -94,7 +112,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect('/users')->with('msg', 'ID:'.$user->id.$user->name . 'を削除しました');
+        return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
     }
-
 }

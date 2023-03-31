@@ -56,6 +56,8 @@
                             <th class="thema">@sortablelink('type', 'タイプ')</th>
                             <th class="thema">@sortablelink('price', '金額（税込）')</th>
                             <th class="thema">@sortablelink('stock', '在庫数（個）')</th>
+                            <th class="thema">@sortablelink('created_at', '登録日')</th>
+                            <th></th>
                             <!-- <th>型番<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
                             <th>タイプ<a href="/items?sort=typeasc&keyword=" class="sort">▲</a><a href="/items?sort=typedesc&keyword=" class="sort">▼</a></th>
                             <th>料金（税込)<a href="/items?sort=lowprice&keyword=" class="sort">▲</a><a href="/items?sort=highprice&keyword=" class="sort">▼</a></th>
@@ -72,6 +74,7 @@
                             <td>{{ \App\Models\Item::TYPES[$item->type]}}</td>
                             <td>{{ number_format($item->price) }}円</td>
                             <td>{{ $item->stock }}</td>
+                            <td>{{ $item->created_at->format('Y年m月d日') }}</td>
                             <td> <button class="btn btn-primary"><a href="{{ url('/items/detail/'.$item->id) }}">詳細</a></button></td>
                             @can('admin')
                             <td><button class="btn btn-primary"><a href="{{ url('/items/edit/'.$item->id) }}">編集</a></button></td>

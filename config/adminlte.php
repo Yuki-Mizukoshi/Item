@@ -236,6 +236,13 @@ return [
             'icon' => 'fas fa-user',
             'can'=>'admin',
         ],
+        [
+            'text' => '利用者情報',
+            'url'  => 'users',
+            'icon' => 'fas fa-user',
+            'can'=>'general',
+        ],
+     
 
 
 

@@ -17,10 +17,9 @@
                     {{ session('msg') }}
                 </div>
                 @endif
-
-                @can('admin')
                 <button class="btn btn-primary"><a href="{{ url('/users/add')}}">利用者登録</a></button>
                 <div class="card-tools">
+
                     <form action="/users" method="get">
                         <div class="inputarea d-flex w-100">
                             <div>
@@ -30,10 +29,32 @@
                             <button class="btn btn-primary ml-3"><a href="{{ url('/users') }}">クリア</a></button>
                         </div>
                     </form>
-                </div>
-                @endcan
 
+                </div>
+                <!-- <form action="/users" method="get">
+                        <div class="inputarea d-flex w-100">
+                            <div>
+                                <select name="sort" class="form-control">
+                                    <option value="hiname">名前（降順）</option>
+                                    <option value="lowname">名前（昇順）</option>
+                                    <option value="idasc">ID（昇順）</option>
+                                    <option value="iddesc">ID（降順）</option>
+                                    <option value="hirole">権限（昇順）</option>
+                                    <option value="lowrole">権限（降順）</option>
+                                    <option value="hiemail">メールアドレス（降順）</option>
+                                    <option value="lowemail">メールアドレス（昇順）</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="search" name="keyword" class="form-control" placeholder="キーワード入力" value="@if(isset($keyword)) {{ $keyword }} @endif">
+                            </div>
+                            <button type="submit" class="btn btn-primary ml-2">検 索</button>
+                            <button class="btn btn-primary ml-3"><a href="{{ url('/items') }}">クリア</a></button>
+                        </div>
+                    </form>
+            <!-- </div> --> 
                 <div class="card-body table-responsive p-0">
+
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
                             <tr>
@@ -42,6 +63,11 @@
                             <th class="thema">@sortablelink('role', '権限')</th>
                             <th class="thema">@sortablelink('email', 'メールアドレス')</th>
                             <th class="thema">@sortablelink('created_at', '登録日')</th>
+
+                                <!-- <th>ID<a href="/users?sort=idasc" class="sort">▲</a><a href="/users?sort=iddesc" class="sort">▼</a></th>
+                                <th>名前<a href="/users?sort=hiname" class="sort">▲</a><a href="/users?sort=lowname" class="sort">▼</a></th>
+                                <th>権限<a href="/users?sort=hirole" class="sort">▲</a><a href="/users?sort=lowrole" class="sort">▼</a></th>
+                                <th>メールアドレス<a href="/users?sort=hiemail" class="sort">▲</a><a href="/users?sort=lowemail" class="sort">▼</a></th> -->
                                 <th></th>
                                 <th></th>
                             </tr>

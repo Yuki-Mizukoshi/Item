@@ -44,6 +44,7 @@
                         @enderror
                     </div>
 
+                    @can('general')
                     <div class="form-group">
                         <label for="password">パスワード</label>
                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="">
@@ -54,6 +55,18 @@
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="confirm">パスワード（確認用）</label>
+                        <input type="password" class="form-control @error('confirm') is-invalid @enderror" id="confirm" name="confirm" placeholder="必須入力">
+                        @error('confirm')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    @endcan
+
+                    @can('admin')
                     <div class="form-group">
                         <label for="role">権限設定</label><br>
                         <select name="role" class="form-control w-50 @error('role') is-invalid @enderror">
@@ -67,6 +80,7 @@
                         </span>
                         @enderror
                     </div>
+                    @endcan
                 </div>
                 <div class="d-flex">
                     <div class="ml-3">
