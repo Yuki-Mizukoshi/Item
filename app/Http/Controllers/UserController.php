@@ -15,6 +15,9 @@ class UserController extends Controller
         $keyword = $request->input('keyword');
         $query = User::query();
         // $users = User::sortable()->get();
+        $admin=User::where('role',1)->get();
+
+        $admin=count($admin);
 
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%");
@@ -32,7 +35,7 @@ class UserController extends Controller
             return redirect('/users')->with('msg', '入力されたキーワードは存在しません');
         }
 
-        return view('user.index', ['users' => $users]);
+        return view('user.index', ['users' => $users,'admin'=>$admin]);
     }
 
 
@@ -78,12 +81,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-
-        // $request->validate([
-
-
-        // ]);
-
         $user = User::find($id);
         //一般ユーザー：自分自身
         if ($user->id == Auth::user()->id && $user->role == 0) {
@@ -109,7 +106,6 @@ class UserController extends Controller
                 'role' => 'required',
             ]);
         }
-        // dd($id);
 
         if (strlen($request->password) >= 8) {
             $user->password = Hash::make($request->password);
@@ -117,8 +113,8 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-
-        if ($user->id == Auth::user()->id && Auth::user()->id == 1) {
+        //管理者
+        if ( Auth::user()->role== 1) {
             $user->role = $request->role;
         }
         $user->save();
@@ -130,15 +126,21 @@ class UserController extends Controller
     {
         // dd($id);
 
+        $user = User::find($id);
+        $users=User::all();
 
+        //一般ユーザー
         if (Auth::user()->role === 0) {
-            $user = User::find($id);
             $user->delete();
             return redirect('/register');
-        } else {
-            $user = User::find($id);
+            //管理者かつユーザー数が０人より多い場合、ユーザー一覧画面に遷移する
+        } elseif(Auth::user()->role === 1 && $users->count()>0) {
             $user->delete();
             return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
+            //管理者かつユーザー数が０人の時、ユーザー登録画面に遷移する
+        }else{
+            $user->delete();
+            return redirect('/register');
         }
     }
 }
