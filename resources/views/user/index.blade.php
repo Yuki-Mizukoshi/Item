@@ -3,7 +3,7 @@
 @section('title', '商品一覧')
 
 @section('content_header')
-<h1>利用者一覧画面</h1>
+<h1>@if(Auth::user()->role==1)利用者一覧画面@else利用者情報画面@endif</h1>
 @stop
 
 @section('content')
@@ -33,15 +33,16 @@
                 </div>
                 @endcan
 
+
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
                             <tr>
-                            <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover"  data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
-                            <th class="thema">@sortablelink('name', '名前')</th>
-                            <th class="thema">@sortablelink('role', '権限')</th>
-                            <th class="thema">@sortablelink('email', 'メールアドレス')</th>
-                            <th class="thema">@sortablelink('created_at', '登録日')</th>
+                                <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover" data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
+                                <th class="thema">@sortablelink('name', '名前')</th>
+                                <th class="thema">@sortablelink('role', '権限')</th>
+                                <th class="thema">@sortablelink('email', 'メールアドレス')</th>
+                                <th class="thema">@sortablelink('created_at', '登録日')</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -66,6 +67,17 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $users->links() }}
+                @can('admin')
+                @if (count($users) >0)
+                <p>全{{ $users->total() }}件中
+                    {{ ($users->currentPage() -1) * $users->perPage() + 1}} -
+                    {{ (($users->currentPage() -1) * $users->perPage() + 1) + (count($users) -1)  }}件のデータが表示されています。
+                </p>
+                @else
+                <p>登録されているデータがありません。</p>
+                @endif
+                @endcan
             </div>
         </div>
     </div>
@@ -79,10 +91,10 @@
     @section('js')
 
     <script>
-         $(function() {
-        $('#hoge').popover({
-            trigger: 'hover', // click,hover,focus,manualを選択出来る
+        $(function() {
+            $('#hoge').popover({
+                trigger: 'hover', // click,hover,focus,manualを選択出来る
+            });
         });
-    });
     </script>
     @stop

@@ -25,37 +25,19 @@ class ItemController extends Controller
     {
         
         $keyword = $request->input('keyword');
-        // $sort = $request->input('sort');
         $query = Item::query();
 
-        $items=Item::sortable()->get();
 
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('detail', 'LIKE', "%{$keyword}%");
-                $items=$query->get();
+               
         }
-
-        // if ($sort == 'highprice') {
-        //     $query->orderBy('price', 'desc');
-        // } elseif ($sort == 'lowprice') {
-        //     $query->orderBy('price', 'asc');
-        // } elseif ($sort == 'typeasc') {
-        //     $query->orderBy('type', 'asc');
-        // } elseif ($sort == 'typedesc') {
-        //     $query->orderBy('type', 'desc');
-        // } elseif ($sort == 'highcount') {
-        //     $query->orderBy('stock', 'desc');
-        // } elseif ($sort == 'lowcount') {
-        //     $query->orderBy('stock', 'asc');
-        // }elseif ($sort == 'idasc') {
-        //     $query->orderBy('id', 'asc');
-        // } elseif ($sort == 'iddesc') {
-        //     $query->orderBy('id', 'desc');
-        // }
-        // $items = $query->get();
+        $items=$query->sortable()->paginate(3);
+        
         return view('item.index', ['items'=>$items,'keyword'=>$keyword]);
     }
+
 
     /**
      * 商品登録

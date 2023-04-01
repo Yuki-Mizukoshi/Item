@@ -20,6 +20,7 @@
                 @can('admin')
                 <button class="btn btn-primary"><a href="{{ url('items/add') }}">商品登録</a></button>
                 @endcan
+
                 <div class="card-tools">
 
                     <form action="/items" method="get">
@@ -51,7 +52,7 @@
                     <thead>
                         <tr>
                             <!-- <th>ID<a href="/items?sort=idasc&keyword=" class="sort">▲</a><a href="/items?sort=iddesc&keyword=" class="sort">▼</a></th> -->
-                            <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover"  data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
+                            <th class="thema" id="hoge" data-bs-placement="top" data-toggle="popover" data-content="項目をクリックすると「昇順⇔降順」と切り替える事ができます">@sortablelink('id', 'ID')</th>
                             <th class="thema">@sortablelink('name', '型番')</th>
                             <th class="thema">@sortablelink('type', 'タイプ')</th>
                             <th class="thema">@sortablelink('price', '金額（税込）')</th>
@@ -90,6 +91,15 @@
                     </tbody>
                 </table>
             </div>
+            <div class="ml-3">{{ $items->links() }}</div>
+            @if (count($items) >0)
+            <p class="ml-3">全{{ $items->total() }}件中
+                {{ ($items->currentPage() -1) * $items->perPage() + 1}} -
+                {{ (($items->currentPage() -1) * $items->perPage() + 1) + (count($items) -1)  }}件のデータが表示されています。
+            </p>
+            @else
+            <p>登録されているデータがありません。</p>
+            @endif
         </div>
     </div>
 </div>

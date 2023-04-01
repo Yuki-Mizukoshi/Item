@@ -44,7 +44,7 @@
                         @enderror
                     </div>
 
-                    @can('general')
+                    @if(Auth::user()->id==$user->id)
                     <div class="form-group">
                         <label for="password">パスワード</label>
                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="">
@@ -64,7 +64,7 @@
                         </span>
                         @enderror
                     </div>
-                    @endcan
+                    @endif
 
                     @can('admin')
                     <div class="form-group">

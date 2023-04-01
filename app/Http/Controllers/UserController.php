@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $keyword = $request->input('keyword');
         $query = User::query();
-        $users = User::sortable()->get();
+        // $users = User::sortable()->get();
 
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%");
@@ -24,7 +24,10 @@ class UserController extends Controller
             $query->where('id', Auth::id());
         }
 
-        $users = $query->get();
+        $users = $query->sortable()->paginate(3);
+
+
+
         if ($users === null) {
             return redirect('/users')->with('msg', '入力されたキーワードは存在しません');
         }
@@ -65,37 +68,57 @@ class UserController extends Controller
         // dd($id);
 
         $user = User::find($id);
-        if (Auth::user()->id != $user->id) {
+        if (Auth::user()->id == $user->id || Auth::user()->role == 1) {
+            return view('user.edit', ['user' => $user]);
+        } else {
             return abort('404', 'not found');
         }
-
-        return view('user.edit', ['user' => $user]);
     }
 
     public function update(Request $request, $id)
     {
-        // dd($id);
 
+
+        // $request->validate([
+
+
+        // ]);
+
+        $user = User::find($id);
+            //一般ユーザー：自分自身
+        if ($user->id == Auth::user()->id && $user->role==0) {
         $request->validate([
             'name' => 'required|max:100',
             'email' => 'required|email',
             'password' => 'min:8',
             'confirm' => 'required|same:password',
-        ]);
 
-        if (Auth::user()->id == 1) {
+        ]);//管理者かつ自分自身
+        }elseif($user->id == Auth::user()->id && $user->role==1){
             $request->validate([
+                'name' => 'required|max:100',
+                'email' => 'required|email',
+                'password' => 'min:8',
+                'confirm' => 'required|same:password',
+                'role' => 'required',
+            ]);
+        }else{//管理者かつ自分以外
+            $request->validate([
+                'name' => 'required|max:100',
+                'email' => 'required|email',
                 'role' => 'required',
             ]);
         }
+        // dd($id);
 
-        $user = User::find($id);
         if (strlen($request->password) >= 8) {
             $user->password = Hash::make($request->password);
         }
+
         $user->name = $request->name;
         $user->email = $request->email;
-        if (Auth::user()->id == 1) {
+
+        if ($user->id == Auth::user()->id && Auth::user()->id == 1) {
             $user->role = $request->role;
         }
         $user->save();
@@ -103,14 +126,16 @@ class UserController extends Controller
         return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を編集しました');
     }
 
-
-
-
     public function delete($id)
     {
         // dd($id);
         $user = User::find($id);
         $user->delete();
+
+        if($user->role==0)
+        {
+            return redirect('/register');
+        }
 
         return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
     }

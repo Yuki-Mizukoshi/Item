@@ -36,7 +36,9 @@
 
             <div class="card-footer">
                 <button class="btn btn-primary"><a href="{{ url('/items') }}">戻る</a></button>
+                @can('admin')
                 <button class="btn btn-primary"><a href="{{ url('/items/edit/'.$item->id) }}">編集</a></button>
+                @endcan
             </div>
 
         </div>
