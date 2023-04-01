@@ -85,16 +85,16 @@ class UserController extends Controller
         // ]);
 
         $user = User::find($id);
-            //一般ユーザー：自分自身
-        if ($user->id == Auth::user()->id && $user->role==0) {
-        $request->validate([
-            'name' => 'required|max:100',
-            'email' => 'required|email',
-            'password' => 'min:8',
-            'confirm' => 'required|same:password',
+        //一般ユーザー：自分自身
+        if ($user->id == Auth::user()->id && $user->role == 0) {
+            $request->validate([
+                'name' => 'required|max:100',
+                'email' => 'required|email',
+                'password' => 'min:8',
+                'confirm' => 'required|same:password',
 
-        ]);//管理者かつ自分自身
-        }elseif($user->id == Auth::user()->id && $user->role==1){
+            ]); //管理者かつ自分自身
+        } elseif ($user->id == Auth::user()->id && $user->role == 1) {
             $request->validate([
                 'name' => 'required|max:100',
                 'email' => 'required|email',
@@ -102,7 +102,7 @@ class UserController extends Controller
                 'confirm' => 'required|same:password',
                 'role' => 'required',
             ]);
-        }else{//管理者かつ自分以外
+        } else { //管理者かつ自分以外
             $request->validate([
                 'name' => 'required|max:100',
                 'email' => 'required|email',
@@ -129,14 +129,16 @@ class UserController extends Controller
     public function delete($id)
     {
         // dd($id);
-        $user = User::find($id);
-        $user->delete();
 
-        if($user->role==0)
-        {
+
+        if (Auth::user()->role === 0) {
+            $user = User::find($id);
+            $user->delete();
             return redirect('/register');
+        } else {
+            $user = User::find($id);
+            $user->delete();
+            return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
         }
-
-        return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
     }
 }
