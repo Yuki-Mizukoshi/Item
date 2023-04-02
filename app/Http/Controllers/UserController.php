@@ -29,8 +29,6 @@ class UserController extends Controller
 
         $users = $query->sortable()->paginate(3);
 
-
-
         if ($users === null) {
             return redirect('/users')->with('msg', '入力されたキーワードは存在しません');
         }
@@ -127,14 +125,22 @@ class UserController extends Controller
         // dd($id);
 
         $user = User::find($id);
-        $users=User::all();
+
+        $admin=User::where('role',1)->get();
+        $admin=count($admin);
+
+        //
+        if($admin==1)
+        {
+            return redirect('/users')->with('msg', '管理者は１人以上必要なため、削除できません');
+        }
 
         //一般ユーザー
         if (Auth::user()->role === 0) {
             $user->delete();
             return redirect('/register');
             //管理者かつユーザー数が０人より多い場合、ユーザー一覧画面に遷移する
-        } elseif(Auth::user()->role === 1 && $users->count()>0) {
+        } elseif(Auth::user()->role === 1) {
             $user->delete();
             return redirect('/users')->with('msg', 'ID:' . $user->id . $user->name . 'を削除しました');
             //管理者かつユーザー数が０人の時、ユーザー登録画面に遷移する

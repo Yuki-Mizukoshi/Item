@@ -59,7 +59,7 @@
 
                                 <td>
                                     @if($user->role==0 || ($user->role==1 && $admin>=2))
-                                    <form action="{{ url('/users/delete/'.$user->id) }}" method="POST">
+                                    <form action="{{ url('/users/delete/'.$user->id) }}" method="GET">
                                         @csrf
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
                                     </form>
