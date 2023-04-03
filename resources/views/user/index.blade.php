@@ -58,9 +58,11 @@
                                 <td><button class="btn btn-primary"><a href="{{ url('/users/edit/'.$user->id)}}">編集</a></button></td>
 
                                 <td>
-                                    @if($user->role==0 || ($user->role==1 && $admin>=2))
-                                    <form action="{{ url('/users/delete/'.$user->id) }}" method="GET">
+                                    @if($user->role==0 || (Auth::user()->role==1 && Auth::user()->id!==$user->id) )
+                                    <!-- ($user->role==1 && Auth::user()->id!==$id) -->
+                                    <form action="{{ url('/users/delete/'.$user->id) }}" method="post">
                                         @csrf
+                                        @method('delete')
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
                                     </form>
                                     @endif

@@ -42,7 +42,7 @@ Route::prefix('users')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'index']);
     Route::get('/edit/{id}', [App\Http\Controllers\UserController::class, 'edit']);
     Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update']);
-    Route::get('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete']);
+    Route::delete('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete']);
     // 管理者ユーザーのみ
     Route::group(['middleware' => ['auth', 'can:admin']], function () {
         Route::get('/add', [App\Http\Controllers\UserController::class, 'add']);
