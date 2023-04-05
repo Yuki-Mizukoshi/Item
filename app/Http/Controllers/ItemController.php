@@ -23,7 +23,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $keyword = $request->input('keyword');
         $query = Item::query();
 
@@ -31,11 +31,10 @@ class ItemController extends Controller
         if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('detail', 'LIKE', "%{$keyword}%");
-               
         }
-        $items=$query->sortable()->paginate(3);
-        
-        return view('item.index', ['items'=>$items,'keyword'=>$keyword]);
+        $items = $query->sortable()->paginate(3);
+
+        return view('item.index', ['items' => $items, 'keyword' => $keyword]);
     }
 
 
@@ -50,8 +49,8 @@ class ItemController extends Controller
             $this->validate($request, [
                 'name' => 'required|max:100',
                 'type' => 'required',
-                'price' => 'required|integer',
-                'stock' => 'required|integer',
+                'price' => 'required|integer|min:0',
+                'stock' => 'required|integer|min:0',
                 'detail' => 'required'
             ]);
 
@@ -103,8 +102,8 @@ class ItemController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
             'detail' => 'required'
         ]);
 
