@@ -50,8 +50,8 @@ class ItemController extends Controller
             $this->validate($request, [
                 'name' => 'required|max:100',
                 'type' => 'required',
-                'price' => 'required',
-                'stock' => 'required',
+                'price' => 'required|integer',
+                'stock' => 'required|integer',
                 'detail' => 'required'
             ]);
 

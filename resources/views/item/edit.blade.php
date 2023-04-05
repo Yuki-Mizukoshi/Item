@@ -50,7 +50,7 @@
 
                     <div class="form-group">
                         <label for="price">金額（税込）</label>
-                        <input type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ $item->price }}">
+                        <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ $item->price }}">
                         @error('price')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
