@@ -49,8 +49,8 @@ class ItemController extends Controller
             $this->validate($request, [
                 'name' => 'required|max:100',
                 'type' => 'required',
-                'price' => 'required|integer|min:0',
-                'stock' => 'required|integer|min:0',
+                'price' => 'required|integer|min:0|regex:/^[0-9]+$/',
+                'stock' => 'required|integer',
                 'detail' => 'required'
             ]);
 
@@ -102,7 +102,7 @@ class ItemController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required',
-            'price' => 'required|integer',
+            'price' => 'required|integer|regex:/^[0-9]+$/',
             'stock' => 'required|integer',
             'detail' => 'required'
         ]);
